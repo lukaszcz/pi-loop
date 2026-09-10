@@ -5,7 +5,7 @@ import {
 	formatRelativeTime,
 	parseDuration,
 	parseLoopCommand,
-} from "../extensions/schedule.ts";
+} from "../extensions/loop.ts";
 
 test("parseDuration supports short and long units", () => {
 	assert.equal(parseDuration("60s"), 60_000);

@@ -45,7 +45,13 @@ This extension is intended for Pi's long-lived TUI and RPC modes; print and JSON
 
 ## Install
 
-From a local checkout:
+Copy the standalone extension file into Pi's global extension directory:
+
+```bash
+cp extensions/loop.ts ~/.pi/agent/extensions/loop.ts
+```
+
+Then restart Pi or run `/reload`. Alternatively, install the package from a local checkout:
 
 ```bash
 pi install /path/to/pi-loop
