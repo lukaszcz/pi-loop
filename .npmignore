@@ -1,0 +1,21 @@
+# Sandbox artifacts
+.bash_profile
+.bashrc
+.env
+.gitconfig
+.gitmodules
+.idea
+.mcp.json
+.profile
+.ripgreprc
+.vscode
+.zprofile
+.zshrc
+.claude/
+.agent-files/
+
+# Development files
+node_modules/
+dist/
+tests/
+*.log
