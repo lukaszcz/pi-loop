@@ -51,8 +51,15 @@ test("parses a trailing every clause", () => {
 	});
 });
 
-test("does not treat ordinary uses of every as a schedule", () => {
-	assert.equal(parseLoopCommand("check every PR").kind, "error");
+test("missing intervals select dynamic self-pacing", () => {
+	assert.deepEqual(parseLoopCommand("check the deploy"), {
+		kind: "schedule",
+		message: "check the deploy",
+	});
+	assert.deepEqual(parseLoopCommand("check every PR"), {
+		kind: "schedule",
+		message: "check every PR",
+	});
 });
 
 test("enforces interval bounds and requires a message", () => {

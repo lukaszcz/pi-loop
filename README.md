@@ -4,20 +4,22 @@ A [Pi](https://pi.dev) extension for sending recurring messages to the agent, si
 
 ## Usage
 
-Schedule with either a leading interval or a trailing `every` clause:
+Omit the interval for model-chosen dynamic pacing, or provide a fixed interval in leading or trailing form:
 
 ```text
-/loop 5m check the deploy
-/loop check X every 1h
-/loop run tests every 30 minutes
-/loop 2h review src/index.ts
+/loop check the deploy                 # model chooses each next delay
+/loop 5m check the deploy              # fixed interval
+/loop check X every 1h                 # fixed interval
+/loop run tests every 30 minutes       # fixed interval
 ```
 
-The first message is sent after one full interval. If the agent is busy when a loop fires, delivery waits until the agent settles instead of interrupting the current turn. Repeated ticks are coalesced to one pending delivery, so a slow agent cannot build an unbounded backlog.
+Every loop runs once immediately. Fixed loops then repeat at their interval. Dynamic loops ask the model after every iteration to either choose the next delay with the `loop_control` tool or stop the loop.
 
-Scheduled values are delivered as literal user messages. Slash-command expansion is intentionally disabled because Pi extension commands bypass the normal busy-agent queue; schedule the underlying instruction as plain text instead.
+If the agent is busy when a loop becomes due, delivery waits until the agent settles instead of interrupting the current turn. Repeated fixed ticks are coalesced to one pending delivery, so a slow agent cannot build an unbounded backlog.
 
-Intervals accept seconds, minutes, hours, and days (`s`, `m`, `h`, `d`, or long names). The minimum is 1 minute and the maximum is 30 days.
+Scheduled values are delivered literally as visible loop messages to the agent. Slash-command expansion is intentionally disabled because Pi extension commands bypass the normal busy-agent queue; schedule the underlying instruction as plain text instead.
+
+Fixed intervals and model-chosen delays accept seconds, minutes, hours, and days (`s`, `m`, `h`, `d`, or long names). The minimum is 1 minute and the maximum is 30 days.
 
 ### Manage loops
 
@@ -29,7 +31,7 @@ Intervals accept seconds, minutes, hours, and days (`s`, `m`, `h`, `d`, or long 
 /loop help               # Show usage
 ```
 
-Multiple loops can run at once. The Pi footer shows the active loop count and the next delivery time.
+Multiple fixed and dynamic loops can run at once. The Pi footer shows whether a loop is waiting, the model is choosing a dynamic delay, or the next delivery time.
 
 ## Lifecycle
 

@@ -5,7 +5,7 @@ export type LoopCommand =
 	| { kind: "list" }
 	| { kind: "help" }
 	| { kind: "cancel"; target: string }
-	| { kind: "schedule"; intervalMs: number; message: string }
+	| { kind: "schedule"; intervalMs?: number; message: string }
 	| { kind: "error"; message: string };
 
 const UNIT_MS: Record<string, number> = {
@@ -87,10 +87,7 @@ export function parseLoopCommand(args: string): LoopCommand {
 		return validateSchedule(intervalMs, trailing[1]);
 	}
 
-	return {
-		kind: "error",
-		message: "No interval found. Use `/loop <interval> <message>` or `/loop <message> every <interval>`.",
-	};
+	return { kind: "schedule", message: input };
 }
 
 export function formatDuration(milliseconds: number): string {
